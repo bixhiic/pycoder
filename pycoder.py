@@ -80,7 +80,7 @@ def crypt(data, format):
         for i in data:
             value = bin_dict.get(i)
             if value == None:
-                value = '032'
+                value = '00100000'
             result.append(str(value))
                                         
     return chain.join(result) 
