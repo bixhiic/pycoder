@@ -165,28 +165,3 @@ while True:
         print('\n [%] ERROR! \n\n Select a valid option')
 
 
-
-
-    # elif opt == '1':
-    #     data = input('[*] Write or copy text here >> ')
-    #     text = crypt(data=data, format=opt)
-    #     print(text)
-    # elif opt == '2':
-    #     data = input('[*] Write or copy text here >> ')
-    #     text = crypt(data=data, format=opt)
-    #     print(text)
-
-    # elif opt == '3':
-    #     data = input('[*] Write or copy text here >> ')
-    #     text = crypt(data=data, format=opt)
-    #     print(text)
-
-    # elif opt == '4':
-    #     data = input('[*] Write or copy text here >> ')
-    #     text = crypt(data=data, format=opt)
-    #     print(text)
-    # else:
-    #     print('Select a correct option!')                
-
-
-
