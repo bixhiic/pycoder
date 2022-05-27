@@ -1,7 +1,36 @@
 import requests
 from bs4 import BeautifulSoup
-import time
+import time, os
 
+
+MENU = ['''
++-------------------------+
+|   Wellcome to Pycoder   |
++-------------------------+ 
+
+Select Method:
+
+[1] To Crypt
+[2] To Decrypt
+
+[5] Exit
+
+''',
+'''
++-------------------------+
+|   Wellcome to Pycoder   |
++-------------------------+ 
+
+Select a format to use: 
+
+[1] Decimal
+[2] Octal
+[3] Hexadecimal
+[4] Binary
+
+[5] Exit
+
+''']
 
 
 response = requests.get("https://www.ascii-code.com/")
@@ -87,55 +116,77 @@ def crypt(data, format):
 
 
 
-def decrypt():
+def decrypt(data, format):
     '''Crypt data to selected format'''
     pass
 
 
 
-menu = '''
-+-------------------------+
-|   Wellcome to Pycoder   |
-+-------------------------+ 
+def convert(opt, frmt, data):
+    '''Convert data from ~option~ to ~format~:
+        [#] Option -> (crypt / decrypt)
+        [#] Format -> (decimal, octal, hexadecimal, binary)    
+    '''
 
-This script helps to crypt some text in diferent formats, please choose one:
+    # crypt
+    if opt == '1':
+        code = crypt(data=data, format=frmt)
+        return code
+    else:
+        code = decrypt(data=data, format=frmt)
+        return code    
+    
 
-[1] Decimal
-[2] Octal
-[3] Hexadecimal
-[4] Binary
 
-[5] Exit
-'''
-print(menu)
 
-while True:
-    print('\nOption?')
+while True:   
+  
+    print(MENU[0])
     opt = str(input(">> "))
+    os.system('clear')
     if opt == '5':
         print('[%] Exiting...')
         time.sleep(1)
         break
+    elif opt == '1' or opt == '2':
+        os.system('clear')
+        print(MENU[1])
+        frmt = str(input('>> '))
+        os.system('clear')
+        data = input('[*] Write or copy text here >> ')
+        result = convert(opt=opt, frmt=frmt, data=data)
+        os.system('clear')
+        print(f'\n\n[^] Code: {result} \n\n')
+        input('Press any key to restart...')
+        os.system('clear')
 
-    elif opt == '1':
-        data = input('[*] Write or copy text here >> ')
-        text = crypt(data=data, format=opt)
-        print(text)
-    elif opt == '2':
-        data = input('[*] Write or copy text here >> ')
-        text = crypt(data=data, format=opt)
-        print(text)
-
-    elif opt == '3':
-        data = input('[*] Write or copy text here >> ')
-        text = crypt(data=data, format=opt)
-        print(text)
-
-    elif opt == '4':
-        data = input('[*] Write or copy text here >> ')
-        text = crypt(data=data, format=opt)
-        print(text)
     else:
-        print('Select a correct option!')                
+        os.system('clear')
+        print('\n [%] ERROR! \n\n Select a valid option')
 
-     
+
+
+
+    # elif opt == '1':
+    #     data = input('[*] Write or copy text here >> ')
+    #     text = crypt(data=data, format=opt)
+    #     print(text)
+    # elif opt == '2':
+    #     data = input('[*] Write or copy text here >> ')
+    #     text = crypt(data=data, format=opt)
+    #     print(text)
+
+    # elif opt == '3':
+    #     data = input('[*] Write or copy text here >> ')
+    #     text = crypt(data=data, format=opt)
+    #     print(text)
+
+    # elif opt == '4':
+    #     data = input('[*] Write or copy text here >> ')
+    #     text = crypt(data=data, format=opt)
+    #     print(text)
+    # else:
+    #     print('Select a correct option!')                
+
+
+
