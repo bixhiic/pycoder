@@ -37,6 +37,8 @@ response = requests.get("https://www.ascii-code.com/")
 
 soup = BeautifulSoup(response.text, features="lxml")
 
+formats = [':)','DEC', 'OCT', 'HEX', 'BIN']
+
 char_list = [] 
 decimal_list =[] 
 octal_list = [] 
@@ -68,7 +70,11 @@ for i in range(0,68):
 
 # MAKING DICTS
 def add(dic, key, value):
-    dic[key] = value
+    if key == '':
+        key = ' '
+        dic[key] = value
+    else:
+        dic[key] = value    
 
 for j in range(96):
     add(decimal_dict, char_list[j] , decimal_list[j])
@@ -78,64 +84,100 @@ for j in range(96):
 
 
 
-def crypt(data, format):
+
+
+
+def crypt(data, frmt):
     '''Crypt data to selected format'''
     
     chain = ''
     result = []
     
-    if format == '1':
+    if frmt == '1':
         for i in data:
             value = decimal_dict.get(i)
-            if value == None:
-                value = '032'
             result.append(str(value))
 
-    elif format == '2':
+    elif frmt == '2':
         for i in data:
             value = octal_dict.get(i)
-            if value == None:
-                value = '032'
             result.append(str(value))
 
-    elif format == '3':
+    elif frmt == '3':
         for i in data:
             value = hexa_dict.get(i)
-            if value == None:
-                value = '032'
             result.append(str(value))
     
-    elif format == '4':
+    elif frmt == '4':
         for i in data:
             value = bin_dict.get(i)
-            if value == None:
-                value = '00100000'
             result.append(str(value))
                                         
     return chain.join(result) 
 
 
 
-def decrypt(data, format):
-    '''Crypt data to selected format'''
-    pass
+def decrypt(data, frmt):
+    '''Convert text to chosen format '''
+    
+    text = list(data)
+    num = ""
+    content = ""
+
+    if frmt == '1':
+        for i in text:
+            num += i
+            if len(num) > 2:
+                for k,v in decimal_dict.items():
+                    if num == v:
+                        content += k
+                        num = ""             
+    elif frmt == '2':
+        for i in text:
+            num += i
+            if len(num) > 2:
+                for k,v in octal_dict.items():
+                    if num == v:
+                        content += k
+                        num = ""
+    elif frmt == '3':
+        for i in text:
+            num += i
+            if len(num) > 1:
+                for k,v in hexa_dict.items():
+                    if num == v:
+                        content += k
+                        num = ""                    
+    elif frmt == '4':
+        for i in text:
+            num += i
+            if len(num) > 7:
+                for k,v in bin_dict.items():
+                    if num == v:
+                        content += k
+                        num = ""
+
+    return content 
 
 
 
-def convert(opt, frmt, data):
-    '''Convert data from ~option~ to ~format~:
+
+def transform(opt, frmt, data):
+    '''Transform data from ~option~ to ~format~:
         [#] Option -> (crypt / decrypt)
         [#] Format -> (decimal, octal, hexadecimal, binary)    
     '''
 
-    # crypt
     if opt == '1':
-        code = crypt(data=data, format=frmt)
-        return code
-    else:
-        code = decrypt(data=data, format=frmt)
-        return code    
+        content = crypt(data=data, frmt=frmt)
+
+    elif opt == '2':
+        content = decrypt(data=data, frmt=frmt)
     
+
+    return content 
+
+ 
 
 
 
@@ -153,15 +195,18 @@ while True:
         print(MENU[1])
         frmt = str(input('>> '))
         os.system('clear')
+
         data = input('[*] Write or copy text here >> ')
-        result = convert(opt=opt, frmt=frmt, data=data)
-        os.system('clear')
-        print(f'\n\n[^] Code: {result} \n\n')
+        result = transform(opt=opt, frmt=frmt, data=data)
+        
+        os.system('clear') 
+        print(f'\n\n[{formats[int(frmt)]}] CODE: -->> {result} \n\n')
         input('Press any key to restart...')
         os.system('clear')
 
     else:
         os.system('clear')
         print('\n [%] ERROR! \n\n Select a valid option')
+
 
 
